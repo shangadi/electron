@@ -64,7 +64,7 @@ def main():
   except KeyboardInterrupt:
     print 'Other error'
     returncode = 0
-
+  print 'Returning with error code: {0}'.format(returncode)
   return returncode
 
 
