@@ -39,7 +39,7 @@ def main():
             + context_snapshot
 
       test_path = os.path.join(SOURCE_ROOT, 'spec', 'fixtures', \
-                               'snapshot-items-available.js')
+                               'snapshot-items-available')
 
       if sys.platform == 'darwin':
         bin_files = glob.glob(os.path.join(app_path, '*.bin'))
