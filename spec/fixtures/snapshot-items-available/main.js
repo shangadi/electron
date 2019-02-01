@@ -12,7 +12,6 @@ app.on('ready', () => {
       console.log('not ok test snapshot could not be successfully loaded.')
       returnCode = 1
     }
-    return
   } catch (ex) {
     console.log('Error running custom snapshot', ex)
     returnCode = 1
