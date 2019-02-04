@@ -47,7 +47,11 @@ component("pepper_flash") {
     "//skia",
     "//third_party/adobe/flash:flapper_version_h",
     "//ui/base",
+    "//ui/base/clipboard:clipboard_types",
   ]
+  if (is_mac || is_win) {
+    deps += [ "//ui/base/clipboard" ]
+  }
   if (is_mac) {
     sources += [
       "//chrome/browser/renderer_host/pepper/monitor_finder_mac.h",
