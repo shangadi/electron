@@ -234,6 +234,8 @@ static_library("electron_lib") {
 
   deps = [
     ":atom_js2c",
+    ":electron_content_browser_manifest_overlay",
+    ":electron_content_packaged_services_manifest_overlay",
     "buildflags",
     "chromium_src:chrome",
     "native_mate",
