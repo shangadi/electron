@@ -116,8 +116,6 @@ filenames = {
     "atom/app/atom_main_delegate_mac.mm",
     "atom/app/command_line_args.cc",
     "atom/app/command_line_args.h",
-    "atom/app/manifests.cc",
-    "atom/app/manifests.h",
     "atom/app/uv_task_runner.cc",
     "atom/app/uv_task_runner.h",
     "atom/browser/api/atom_api_app.cc",

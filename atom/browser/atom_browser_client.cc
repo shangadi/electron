@@ -11,7 +11,6 @@
 #include <memory>
 #include <utility>
 
-#include "atom/app/manifests.h"
 #include "atom/browser/api/atom_api_app.h"
 #include "atom/browser/api/atom_api_protocol.h"
 #include "atom/browser/api/atom_api_web_contents.h"
@@ -704,13 +703,19 @@ void AtomBrowserClient::RegisterOutOfProcessServices(
 
 base::Optional<service_manager::Manifest>
 AtomBrowserClient::GetServiceManifestOverlay(base::StringPiece name) {
-  if (name == content::mojom::kBrowserServiceName) {
-    return GetAtomContentBrowserOverlayManifest();
-  } else if (name == content::mojom::kPackagedServicesServiceName) {
-    return GetAtomPackagedServicesOverlayManifest();
-  } else {
+  ui::ResourceBundle& rb = ui::ResourceBundle::GetSharedInstance();
+  int id = -1;
+  if (name == content::mojom::kBrowserServiceName)
+    id = IDR_ELECTRON_CONTENT_BROWSER_MANIFEST_OVERLAY;
+  else if (name == content::mojom::kPackagedServicesServiceName)
+    id = IDR_ELECTRON_CONTENT_PACKAGED_SERVICES_MANIFEST_OVERLAY;
+
+  if (id == -1)
     return base::nullopt;
-  }
+
+  base::StringPiece manifest_contents = rb.GetRawDataResource(id);
+  return service_manager::Manifest::FromValueDeprecated(
+      base::JSONReader::Read(manifest_contents));
 }
 
 net::NetLog* AtomBrowserClient::GetNetLog() {
