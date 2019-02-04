@@ -11,6 +11,7 @@
 #include <memory>
 #include <utility>
 
+#include "atom/app/manifests.h"
 #include "atom/browser/api/atom_api_app.h"
 #include "atom/browser/api/atom_api_protocol.h"
 #include "atom/browser/api/atom_api_web_contents.h"
@@ -65,8 +66,6 @@
 #include "content/public/common/url_constants.h"
 #include "content/public/common/web_preferences.h"
 #include "electron/buildflags/buildflags.h"
-#include "electron/electron_content_browser_manifest_overlay.h"
-#include "electron/electron_content_packaged_services_manifest_overlay.h"
 #include "electron/grit/electron_resources.h"
 #include "net/base/escape.h"
 #include "net/ssl/ssl_cert_request_info.h"
@@ -706,12 +705,14 @@ void AtomBrowserClient::RegisterOutOfProcessServices(
 base::Optional<service_manager::Manifest>
 AtomBrowserClient::GetServiceManifestOverlay(base::StringPiece name) {
   if (name == content::mojom::kBrowserServiceName) {
-    return electron_content_browser_manifest_overlay::GetManifest();
+    return GetElectronContentBrowserOverlayManifest();
   } else if (name == content::mojom::kPackagedServicesServiceName) {
-    return electron_content_packaged_services_manifest_overlay::GetManifest();
-  } else {
-    return base::nullopt;
+    service_manager::Manifest overlay;
+    overlay.packaged_services = GetElectronPackagedServicesOverlayManifest();
+    return overlay;
   }
+
+  return base::nullopt;
 }
 
 net::NetLog* AtomBrowserClient::GetNetLog() {
